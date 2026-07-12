@@ -1,17 +1,19 @@
 import Video from "./Video";
-import { fallCtrl, moveCtrl } from "../api/Ctrl";
 import { LuArrowLeft,LuArrowRight, LuArrowDown, LuArrowUp } from "react-icons/lu";
 import * as S from "./style";
 import { FaRegPlayCircle } from "react-icons/fa";
 import { Coin } from "../api";
 import { useEffect, useState } from "react";
 import Timer from "./Timer";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { useControl } from "./useControl";
 
 export default function Game() {
     const [coin, setCoin] = useState('');
     const [isStart, setIsStart] = useState(false)
     const navigate = useNavigate()
+    const { roomName } = useParams()
+    const { sendMove, sendFall } = useControl(roomName)
 
     function substrCoinleft(str: string) {
         if(str.length === 13) setCoin(str.substring(str.length - 1))
@@ -30,13 +32,13 @@ export default function Game() {
             return;
         }
         if(dir === 'fall') {
-            fallCtrl().then(res => console.log(res)).catch(err => alert('개발자에게 문의해주세요')).finally(() => {
+            sendFall().catch(err => alert('개발자에게 문의해주세요')).finally(() => {
                 setIsStart(false)
                 myCoin()
             })
             return;
         }
-        moveCtrl(dir, status).then(res => console.log(res)).catch(err => alert('개발자에게 문의해주세요'))
+        sendMove(dir, status).catch(err => alert('개발자에게 문의해주세요'))
     }
 
 
