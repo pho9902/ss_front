@@ -3,7 +3,7 @@ import axios from "axios"
 /**
  * [레거시] HTTP 기반 제어 API.
  * 제어 명령은 Game/useControl.ts 의 WebSocket 방식으로 대체되었다.
- * 성능 비교(before 재현)와 폴백 참고용으로 남겨둔다. (bench/latency-bench.js 참고)
+ * 폴백 참고용으로 남겨둔다.
  */
 export function moveCtrl(dir: string, status: string) {
     return axios({
